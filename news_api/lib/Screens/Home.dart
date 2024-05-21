@@ -11,6 +11,7 @@ import 'package:news_api/Constants/AppColors.dart';
 import 'package:news_api/Providers/NewsProvider.dart';
 
 import 'package:news_api/Screens/categoryScreen.dart';
+import 'package:news_api/Screens/deTailScreen.dart';
 import 'package:provider/provider.dart';
 
 class HOME extends StatefulWidget {
@@ -45,7 +46,7 @@ class _HOMEState extends State<HOME> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        surfaceTintColor: Colors.white,
+        surfaceTintColor: AppColors.background,
         backgroundColor: AppColors.background,
         leading: IconButton(
           onPressed: () {
@@ -140,122 +141,171 @@ class _HOMEState extends State<HOME> {
                               DateTime dateTime = DateTime.parse(newsProvider
                                   .newsHeadlines!.articles![index].publishedAt
                                   .toString());
-                              return SizedBox(
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Container(
-                                      height: height * 0.55,
-                                      width: width * 0.9,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 14.4.w),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(15.r),
-                                        child: CachedNetworkImage(
-                                          imageUrl: newsProvider.newsHeadlines!
-                                              .articles![index].urlToImage
-                                              .toString(),
-                                          fit: BoxFit.cover,
-                                          placeholder: (ctx, url) => Container(
-                                            child: SpinKitHourGlass(
-                                                size: 60.w,
-                                                color: Colors
-                                                    .white), // ScreenUtil size
-                                          ),
-                                          errorWidget: (ctx, url, err) => Icon(
-                                            Icons.error_outline_outlined,
-                                            color: Colors.red,
-                                            size: 60.w, // ScreenUtil size
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      bottom: 20.h,
-                                      child: Card(
-                                        elevation: 5,
-                                        color: AppColors.cardColor,
-                                        shape: RoundedRectangleBorder(
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (ctx) => deTailScreen(
+                                                newImage: newsProvider
+                                                    .newsHeadlines!
+                                                    .articles![index]
+                                                    .urlToImage
+                                                    .toString(),
+                                                newDaTe: newsProvider
+                                                    .newsHeadlines!
+                                                    .articles![index]
+                                                    .publishedAt
+                                                    .toString(),
+                                                newTitle: newsProvider
+                                                    .newsHeadlines!
+                                                    .articles![index]
+                                                    .title
+                                                    .toString(),
+                                                source: newsProvider
+                                                    .newsHeadlines!
+                                                    .articles![index]
+                                                    .source!
+                                                    .name
+                                                    .toString(),
+                                                content: newsProvider
+                                                    .newsHeadlines!
+                                                    .articles![index]
+                                                    .content
+                                                    .toString(),
+                                                description: newsProvider
+                                                    .newsHeadlines!
+                                                    .articles![index]
+                                                    .description
+                                                    .toString(),
+                                                author: newsProvider
+                                                    .newsHeadlines!
+                                                    .articles![index]
+                                                    .author
+                                                    .toString(),
+                                              )));
+                                },
+                                child: SizedBox(
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Container(
+                                        height: height * 0.55,
+                                        width: width * 0.9,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 14.4.w),
+                                        child: ClipRRect(
                                           borderRadius:
-                                              BorderRadius.circular(12.r),
-                                        ),
-                                        child: Container(
-                                          padding: EdgeInsets.all(15),
-                                          height: 0.22.sh,
-                                          alignment: Alignment.bottomCenter,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                width: 0.7.sw,
-                                                child: Text(
-                                                  newsProvider.newsHeadlines!
-                                                      .articles![index].title
-                                                      .toString(),
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: GoogleFonts.poppins(
-                                                      color: AppColors.data,
-                                                      fontSize: 17,
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                ),
-                                              ),
-                                              Spacer(),
-                                              Container(
-                                                width: 0.7.sw,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      newsProvider
-                                                          .newsHeadlines!
-                                                          .articles![index]
-                                                          .source!
-                                                          .name
-                                                          .toString(),
-                                                      maxLines: 2,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                              color: AppColors
-                                                                  .data,
-                                                              fontSize: 13,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    Text(
-                                                      format.format(dateTime),
-                                                      maxLines: 2,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                              color: AppColors
-                                                                  .data,
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                    )
-                                                  ],
-                                                ),
-                                              )
-                                            ],
+                                              BorderRadius.circular(15.r),
+                                          child: CachedNetworkImage(
+                                            imageUrl: newsProvider
+                                                .newsHeadlines!
+                                                .articles![index]
+                                                .urlToImage
+                                                .toString(),
+                                            fit: BoxFit.cover,
+                                            placeholder: (ctx, url) =>
+                                                Container(
+                                              child: SpinKitHourGlass(
+                                                  size: 60.w,
+                                                  color: Colors
+                                                      .white), // ScreenUtil size
+                                            ),
+                                            errorWidget: (ctx, url, err) =>
+                                                Icon(
+                                              Icons.error_outline_outlined,
+                                              color: Colors.red,
+                                              size: 60.w, // ScreenUtil size
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    )
-                                  ],
+                                      Positioned(
+                                        bottom: 20.h,
+                                        child: Card(
+                                          elevation: 5,
+                                          color: AppColors.cardColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12.r),
+                                          ),
+                                          child: Container(
+                                            padding: EdgeInsets.all(15),
+                                            height: 0.22.sh,
+                                            alignment: Alignment.bottomCenter,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  width: 0.7.sw,
+                                                  child: Text(
+                                                    newsProvider.newsHeadlines!
+                                                        .articles![index].title
+                                                        .toString(),
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: GoogleFonts.poppins(
+                                                        color: AppColors.data,
+                                                        fontSize: 17,
+                                                        fontWeight:
+                                                            FontWeight.w700),
+                                                  ),
+                                                ),
+                                                Spacer(),
+                                                Container(
+                                                  width: 0.7.sw,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        newsProvider
+                                                            .newsHeadlines!
+                                                            .articles![index]
+                                                            .source!
+                                                            .name
+                                                            .toString(),
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                                color: AppColors
+                                                                    .data,
+                                                                fontSize: 13,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                      ),
+                                                      Text(
+                                                        format.format(dateTime),
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                                color: AppColors
+                                                                    .data,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                      )
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               );
                             },
@@ -266,7 +316,7 @@ class _HOMEState extends State<HOME> {
             child: newsProvider.isLoading
                 ? Center(
                     child: SpinKitHourGlass(
-                      color: Colors.black,
+                      color: Colors.white,
                       size: 60,
                     ),
                   )
@@ -298,84 +348,124 @@ class _HOMEState extends State<HOME> {
                                   .toString());
                               return Padding(
                                 padding: EdgeInsets.only(bottom: 15.h),
-                                child: Row(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(15.r),
-                                      child: CachedNetworkImage(
-                                        imageUrl: newsProvider.categoriesNews!
-                                            .articles![index].urlToImage
-                                            .toString(),
-                                        fit: BoxFit.cover,
-                                        height: height * .18.h,
-                                        width: width * .3.w,
-                                        placeholder: (ctx, url) => Container(
-                                          child: SpinKitHourGlass(
-                                              size: 60.w,
-                                              color: Colors
-                                                  .white), // ScreenUtil size
-                                        ),
-                                        errorWidget: (ctx, url, err) => Icon(
-                                          Icons.error_outline_outlined,
-                                          color: Colors.red,
-                                          size: 60.w, // ScreenUtil size
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (ctx) => deTailScreen(
+                                                newImage: newsProvider
+                                                    .categoriesNews!
+                                                    .articles![index]
+                                                    .urlToImage
+                                                    .toString(),
+                                                newTitle: newsProvider
+                                                    .categoriesNews!
+                                                    .articles![index]
+                                                    .title
+                                                    .toString(),
+                                                newDaTe: newsProvider
+                                                    .categoriesNews!
+                                                    .articles![index]
+                                                    .publishedAt
+                                                    .toString(),
+                                                author: newsProvider
+                                                    .categoriesNews!
+                                                    .articles![index]
+                                                    .author
+                                                    .toString(),
+                                                description: newsProvider
+                                                    .categoriesNews!
+                                                    .articles![index]
+                                                    .description
+                                                    .toString(),
+                                                content: newsProvider.categoriesNews!.articles![index].content.toString(),
+                                                source: newsProvider.categoriesNews!.articles![index].source!.name.toString())));
+                                  },
+                                  child: Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(15.r),
+                                        child: CachedNetworkImage(
+                                          imageUrl: newsProvider.categoriesNews!
+                                              .articles![index].urlToImage
+                                              .toString(),
+                                          fit: BoxFit.cover,
+                                          height: height * .18.h,
+                                          width: width * .3.w,
+                                          placeholder: (ctx, url) => Container(
+                                            child: SpinKitHourGlass(
+                                                size: 60.w,
+                                                color: Colors
+                                                    .white), // ScreenUtil size
+                                          ),
+                                          errorWidget: (ctx, url, err) => Icon(
+                                            Icons.error_outline_outlined,
+                                            color: Colors.red,
+                                            size: 60.w, // ScreenUtil size
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                        child: Container(
-                                      padding: EdgeInsets.only(left: 15.w),
-                                      height: height * .18.h,
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(2),
-                                            child: Text(
-                                              newsProvider.categoriesNews!
-                                                  .articles![index].title
-                                                  .toString(),
-                                              maxLines: 3,
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 15.sp,
-                                                  color: AppColors.data,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                          ),
-                                          Spacer(),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  newsProvider
-                                                      .categoriesNews!
-                                                      .articles![index]
-                                                      .source!
-                                                      .name
-                                                      .toString(),
-                                                  style: GoogleFonts.poppins(
-                                                      fontSize: 13,
-                                                      color:
-                                                          AppColors.Selectbtn,
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                ),
-                                              ),
-                                              Text(
-                                                format.format(dateTime),
+                                      Expanded(
+                                          child: Container(
+                                        padding: EdgeInsets.only(left: 15.w),
+                                        height: height * .18.h,
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(2),
+                                              child: Text(
+                                                newsProvider.categoriesNews!
+                                                    .articles![index].title
+                                                    .toString(),
                                                 maxLines: 3,
                                                 style: GoogleFonts.poppins(
-                                                    fontSize: 15,
+                                                    fontSize: 15.sp,
+                                                    color: AppColors.data,
                                                     fontWeight:
-                                                        FontWeight.w500),
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ))
-                                  ],
+                                                        FontWeight.w700),
+                                              ),
+                                            ),
+                                            Spacer(),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    newsProvider
+                                                        .categoriesNews!
+                                                        .articles![index]
+                                                        .source!
+                                                        .name
+                                                        .toString(),
+                                                    style: GoogleFonts.poppins(
+                                                        fontSize: 13,
+                                                        color:
+                                                            AppColors.Selectbtn,
+                                                        fontWeight:
+                                                            FontWeight.w700),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  format.format(dateTime),
+                                                  maxLines: 3,
+                                                  style: GoogleFonts.poppins(
+                                                      color:
+                                                          AppColors.creameColor,
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ))
+                                    ],
+                                  ),
                                 ),
                               );
                             },

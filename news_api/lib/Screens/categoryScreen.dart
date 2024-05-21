@@ -208,6 +208,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:news_api/Constants/AppColors.dart';
 import 'package:news_api/Providers/NewsProvider.dart';
+import 'package:news_api/Screens/deTailScreen.dart';
 import 'package:provider/provider.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -244,11 +245,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
     final width = 1.sw; // screen width
     final height = 1.sh;
     final categoryNewsProvider = Provider.of<NewsProvider>(context);
-
+    final newsProvider = Provider.of<NewsProvider>(context);
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        surfaceTintColor: Colors.white,
-      ),
+          iconTheme: IconThemeData(color: AppColors.creameColor),
+          surfaceTintColor: AppColors.background,
+          backgroundColor: AppColors.background),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.h),
         child: Column(
@@ -295,7 +298,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               child: categoryNewsProvider.isLoading
                   ? Center(
                       child: SpinKitHourGlass(
-                          size: 60.w, color: Colors.black), // ScreenUtil size
+                          size: 60.w, color: Colors.white), // ScreenUtil size
                     )
                   : categoryNewsProvider.error.isNotEmpty
                       ? Center(
@@ -326,91 +329,134 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                         .toString());
                                 return Padding(
                                   padding: EdgeInsets.only(bottom: 15.h),
-                                  child: Row(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(15.r),
-                                        child: CachedNetworkImage(
-                                          imageUrl: categoryNewsProvider
-                                              .categoriesNews!
-                                              .articles![index]
-                                              .urlToImage
-                                              .toString(),
-                                          fit: BoxFit.cover,
-                                          height: height * .18.h,
-                                          width: width * .3.w,
-                                          placeholder: (ctx, url) => Container(
-                                            child: SpinKitHourGlass(
-                                                size: 60.w,
-                                                color: Colors
-                                                    .white), // ScreenUtil size
-                                          ),
-                                          errorWidget: (ctx, url, err) => Icon(
-                                            Icons.error_outline_outlined,
-                                            color: Colors.red,
-                                            size: 60.w, // ScreenUtil size
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (ctx) => deTailScreen(
+                                                  newImage: newsProvider
+                                                      .categoriesNews!
+                                                      .articles![index]
+                                                      .urlToImage
+                                                      .toString(),
+                                                  newTitle: newsProvider
+                                                      .categoriesNews!
+                                                      .articles![index]
+                                                      .title
+                                                      .toString(),
+                                                  newDaTe: newsProvider
+                                                      .categoriesNews!
+                                                      .articles![index]
+                                                      .publishedAt
+                                                      .toString(),
+                                                  author: newsProvider
+                                                      .categoriesNews!
+                                                      .articles![index]
+                                                      .author
+                                                      .toString(),
+                                                  description: newsProvider
+                                                      .categoriesNews!
+                                                      .articles![index]
+                                                      .description
+                                                      .toString(),
+                                                  content:
+                                                      newsProvider.categoriesNews!.articles![index].content.toString(),
+                                                  source: newsProvider.categoriesNews!.articles![index].source!.name.toString())));
+                                    },
+                                    child: Row(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15.r),
+                                          child: CachedNetworkImage(
+                                            imageUrl: categoryNewsProvider
+                                                .categoriesNews!
+                                                .articles![index]
+                                                .urlToImage
+                                                .toString(),
+                                            fit: BoxFit.cover,
+                                            height: height * .18.h,
+                                            width: width * .3.w,
+                                            placeholder: (ctx, url) =>
+                                                Container(
+                                              child: SpinKitHourGlass(
+                                                  size: 60.w,
+                                                  color: Colors
+                                                      .white), // ScreenUtil size
+                                            ),
+                                            errorWidget: (ctx, url, err) =>
+                                                Icon(
+                                              Icons.error_outline_outlined,
+                                              color: Colors.red,
+                                              size: 60.w, // ScreenUtil size
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Expanded(
-                                          child: Container(
-                                        padding: EdgeInsets.only(left: 15.w),
-                                        height: height * .18.h,
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.all(2),
-                                              child: Text(
-                                                categoryNewsProvider
-                                                    .categoriesNews!
-                                                    .articles![index]
-                                                    .title
-                                                    .toString(),
-                                                maxLines: 3,
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: 15.sp,
-                                                    color: AppColors.data,
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                              ),
-                                            ),
-                                            Spacer(),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    categoryNewsProvider
-                                                        .categoriesNews!
-                                                        .articles![index]
-                                                        .source!
-                                                        .name
-                                                        .toString(),
-                                                    style: GoogleFonts.poppins(
-                                                        fontSize: 13,
-                                                        color:
-                                                            AppColors.Selectbtn,
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  format.format(dateTime),
+                                        Expanded(
+                                            child: Container(
+                                          padding: EdgeInsets.only(left: 15.w),
+                                          height: height * .18.h,
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(2),
+                                                child: Text(
+                                                  categoryNewsProvider
+                                                      .categoriesNews!
+                                                      .articles![index]
+                                                      .title
+                                                      .toString(),
                                                   maxLines: 3,
                                                   style: GoogleFonts.poppins(
-                                                      fontSize: 15,
+                                                      fontSize: 15.sp,
+                                                      color: AppColors.data,
                                                       fontWeight:
-                                                          FontWeight.w500),
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ))
-                                    ],
+                                                          FontWeight.w700),
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      categoryNewsProvider
+                                                          .categoriesNews!
+                                                          .articles![index]
+                                                          .source!
+                                                          .name
+                                                          .toString(),
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                              fontSize: 13,
+                                                              color: AppColors
+                                                                  .Selectbtn,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    format.format(dateTime),
+                                                    maxLines: 3,
+                                                    style: GoogleFonts.poppins(
+                                                        color: AppColors
+                                                            .creameColor,
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ))
+                                      ],
+                                    ),
                                   ),
                                 );
                               },

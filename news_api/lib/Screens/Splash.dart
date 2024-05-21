@@ -26,7 +26,7 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.splashbackground,
+      backgroundColor: AppColors.background,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -40,7 +40,6 @@ class _SplashState extends State<Splash> {
                 fit: BoxFit.fitHeight,
               ),
               decoration: BoxDecoration(
-                  color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(30.r))),
             ),
             SizedBox(
